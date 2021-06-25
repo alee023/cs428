@@ -13,6 +13,7 @@
 #include <arpa/inet.h> 
 #include <netinet/in.h> 
 */
+#include <chrono>
 
 using namespace std ;
 
@@ -23,7 +24,6 @@ int main() {
 	socklen_t len;
 	char buffer[1024];
 	struct sockaddr_in servaddr, cliaddr; 
-	DWORD start, end ;
 	
 	// Create a UDP socket
 	// Notice the use of SOCK_DGRAM for UDP packets
@@ -43,8 +43,8 @@ int main() {
 	
 	// using for loop to send 10 pings
 	for( int i = 0; i < 10; i++ ){
-		start = GetTickCount() ;
-		cout << "start time: " + to_string( start ) << endl ;
+		auto start = std::chrono::steady_clock::now();
+		// cout << "start time: " + to_string( start ) << endl ;
 		
 		// send msg to server
 		sendto( sockfd, (const char*)buffer, strlen( buffer ), 0, (const struct sockaddr *)&servaddr, len ) ;
@@ -52,15 +52,16 @@ int main() {
 		// receive response from server
 		n = recvfrom(sockfd, (char *)buffer, sizeof(buffer), MSG_WAITALL, ( struct sockaddr *) &servaddr, &len);
 		
-		end = GetTickCount() ;
-		cout << "end time: " + to_string( end ) << endl ;
-		double elapsed = ( end - start )/1000.0 ; // calculate elapsed time
+		auto end = std::chrono::steady_clock::now();
+        std::chrono::duration<double, std::milli> diff = end - start ;
+
+		// cout << "end time: " + to_string( end ) << endl ;
 		
-		if( elapsed > 1 ) {
-			cout << to_string( i ) + ": Timeout occured (" + to_string( elapsed ) + " seconds elapsed)" << endl ;
+		if( diff.count()/1000.0 > 1.0 ) {
+			cout << to_string( i ) + ": Timeout occured (" << diff.count() << " milliseconds elapsed)" << endl ;
 		}
 		else {
-			cout << to_string( i ) + ": RTT: " + to_string( elapsed ) + " seconds" << endl ;
+			cout << to_string( i ) + ": RTT: " << diff.count() << " milliseconds\n" ;
 		}
 	}
 	
