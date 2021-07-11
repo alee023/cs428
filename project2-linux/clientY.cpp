@@ -20,7 +20,7 @@ int main() {
 	char msg[ 1024 ] = "Client Y: Bob" ;
 	struct sockaddr_in servaddr ; 
 	
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	
 	// Fill server information 
 	servaddr.sin_family = AF_INET; // IPv4 
@@ -37,9 +37,9 @@ int main() {
 	recv( sockfd, &response, sizeof( response ), 0 ) ;
 	
 	send( sockfd, msg, sizeof( msg ), 0 ) ;
-	cout << "Sent: " + msg << endl ;
+	cout << "Sent: " << msg << endl ;
 	recv( sockfd, &response, sizeof( response ), 0 ) ;
-	cout << "Response: " + response << endl ;
+	cout << "Response: " << response << endl ;
 	
 	close( sockfd ) ;
 	return 0 ;
