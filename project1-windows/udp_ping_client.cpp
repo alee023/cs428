@@ -24,11 +24,16 @@ int main() {
 	socklen_t len;
 	char buffer[1024];
 	struct sockaddr_in servaddr, cliaddr; 
+	WSADATA wsaData ;
+
+	if ( WSAStartup( MAKEWORD( 2, 2 ), &wsaData ) != 0 ) {
+		exit( EXIT_FAILURE );
+	}
 	
 	// Create a UDP socket
 	// Notice the use of SOCK_DGRAM for UDP packets
 	// AF_INET = IPv4
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+	sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	
 	memset(&servaddr, 0, sizeof(servaddr)); 
 	memset(&cliaddr, 0, sizeof(cliaddr)); 
@@ -36,7 +41,7 @@ int main() {
 	// bind unnecessary for client
 	
 	// establishes timeout value of exactly 1.0 seconds
-	DWORD timeout = 2000 ;
+	DWORD timeout = 1000 ;
 	
 	// sets timeout option for socket 
 	setsockopt( sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof( timeout )) ;
@@ -66,5 +71,7 @@ int main() {
 	}
 	
 	close( sockfd ) ;
+	WSACleanup();
+
 	return 0 ;
 }

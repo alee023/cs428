@@ -21,13 +21,18 @@
 
 int main() { 
 	int sockfd, n;
-	socklen_t len;
+	int len = sizeof( sockfd ) ;
 	char buffer[1024];
 	struct sockaddr_in servaddr, cliaddr; 
+	WSADATA wsaData ;
+
+	if( WSAStartup( MAKEWORD( 2,2 ), &wsaData ) != 0 ) {
+		exit( EXIT_FAILURE );
+	}
 	
 	// Create a UDP socket
 	// Notice the use of SOCK_DGRAM for UDP packets
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+	sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP );
 	
 	memset(&servaddr, 0, sizeof(servaddr)); 
 	memset(&cliaddr, 0, sizeof(cliaddr)); 
@@ -57,6 +62,8 @@ int main() {
 		sendto(sockfd, (const char *)buffer, strlen(buffer), 
 			0, (const struct sockaddr *) &cliaddr, len);
 	}
+
+	WSACleanup();
 	return 0; 
 } 
 

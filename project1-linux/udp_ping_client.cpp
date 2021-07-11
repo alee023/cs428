@@ -49,6 +49,7 @@ int main() {
 	
 	// using for loop to send 10 pings
 	for( int i = 0; i < 10; i++ ){
+		// start time
 		auto start = std::chrono::steady_clock::now();		
 		// cout << "start time: " + to_string( start ) << endl ;
 		
@@ -58,13 +59,14 @@ int main() {
 		// receive response from server
 		n = recvfrom(sockfd, (char *)buffer, sizeof(buffer), MSG_WAITALL, (struct sockaddr *) &servaddr, &len);
 		
+		// end time
 		auto end = std::chrono::steady_clock::now();
-       		std::chrono::duration<double, std::milli> diff = end - start ;	
+       	std::chrono::duration<double, std::milli> diff = end - start ;	// get the time in ms
 	
-		if( diff.count()/1000.0 > 1.0 ) {
+		if( diff.count()/1000.0 >= 1.0 ) { // convert millisecond time to seconds, then compare
 			cout << to_string( i ) + ": Timeout occured (" << diff.count() << " milliseconds elapsed)" << endl ;
 		}
-		else {
+		else { // does not exceed timeout 
 			cout << to_string( i ) + ": RTT: " << diff.count() << " milliseconds\n" ;
 		}
 	}
