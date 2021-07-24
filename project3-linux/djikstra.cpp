@@ -21,6 +21,13 @@ vector<vector<int>> graph2{ { 0, 2, 4, INT_MAX, INT_MAX, 7, INT_MAX },
 							{ 7, INT_MAX, 8, INT_MAX, 6, 0, 2 }, 
 							{ INT_MAX, INT_MAX, INT_MAX, INT_MAX, 8, 12, 0 }} ;
 							
+vector<vector<int>> graph3{ { 0, 4, INT_MAX, 6, INT_MAX, INT_MAX }, 
+							{ 4, 0, 6, 3, INT_MAX, INT_MAX }, 
+							{ INT_MAX, 6, 0, 6, 9, 5 }, 
+							{ 6, 3, 6, 0, 1, INT_MAX }, 
+							{ INT_MAX, INT_MAX, 9, 1, 0, 1 }, 
+							{ INT_MAX, INT_MAX, 5, INT_MAX, 1, 0 }} ;
+							
 void printVect( vector<int> vect ) {
 	for( int x : vect ) {
 		cout << to_string( x ) + " " ;
@@ -37,7 +44,7 @@ void djikstra( vector<vector<int>> graph, int size, int start ) {
 		int min = INT_MAX ;
 		int minDex ; // index of minimum, unvisited node
 		for( minDex = 0; minDex < size; minDex++ ) {
-			if(( std::count( visited.begin(), visited.end(), minDex == 0 )) && ( adjVect[ minDex ] < min )) {
+			if(( count( visited.begin(), visited.end(), minDex == 0 )) && ( adjVect[ minDex ] < min )) {
 				min = adjVect[ minDex ] ;
 			}
 		}
