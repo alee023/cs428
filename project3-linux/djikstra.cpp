@@ -45,11 +45,6 @@ void djikstra( vector<vector<int>> graph, int size, int start ) {
 	for( int i = 0; i < size - 1 ; i++ ) { // need at most size number of iterations
 		int min = INT_MAX ;
 		int minDex ; // index of minimum, unvisited node
-		for( minDex = 0; minDex < size; minDex++ ) {
-			if(( count( visited.begin(), visited.end(), minDex == 0 )) && ( adjVect[ minDex ] < min )) {
-				min = adjVect[ minDex ] ;
-			}
-		}
 		for( int ii = 0; ii  < size; ii ++ ) {
 			int visitedTimes = count( visited.begin(), visited.end(), ii ) ;
 			// cout << "count: " + to_string( visitedTimes ) << endl ;
