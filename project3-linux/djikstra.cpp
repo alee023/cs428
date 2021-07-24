@@ -29,15 +29,15 @@ void printVect( vector<int> vect ) {
 }
 							
 void djikstra( vector<vector<int>> graph, int size, int start ) {
-	vector<int> visited = { start }  // keeps track of visited nodes
+	vector<int> visited = { start } ; // keeps track of visited nodes
 	vector<int> adjVect = graph[ start ] ; // serves as adjacency "matrix"
 	printVect( adjVect ) ;
 	
-	for( i = 0; i < size - 1 ; i++ ) { // need at most size number of iterations
+	for( int i = 0; i < size - 1 ; i++ ) { // need at most size number of iterations
 		int min = INT_MAX ;
 		int minDex ; // index of minimum, unvisited node
 		for( minDex = 0; minDex < size; minDex++ ) {
-			if(( count( visited.begin(), visited.end(), minDex == 0 )) && ( adjVect[ minDex ] < min )) {
+			if(( std::count( visited.begin(), visited.end(), minDex == 0 )) && ( adjVect[ minDex ] < min )) {
 				min = adjVect[ minDex ] ;
 			}
 		}
