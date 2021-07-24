@@ -27,7 +27,7 @@ int main() {
 	servaddr.sin_addr.s_addr = INADDR_ANY; // localhost
 	servaddr.sin_port = htons(PORT); // port number
 	
-	// handshake for TCP connections
+	// connect client to server
 	int connection = connect( sockfd, (const sockaddr*)&servaddr, sizeof( servaddr )) ;
 	if( connection < 0 ) {
 		cout << "Connection failed to establish." << endl ;
