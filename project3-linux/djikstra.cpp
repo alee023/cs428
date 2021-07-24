@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <limits.h>
+#include <algorithm>
 
 using namespace std ;
 
@@ -18,7 +19,7 @@ vector<vector<int>> graph2{ { 0, 2, 4, INT_MAX, INT_MAX, 7, INT_MAX },
 							{ 4, 3, 0, 4, 3, 8, INT_MAX }, 
 							{ INT_MAX, 3, 4, 0, 6, INT_MAX, INT_MAX }, 
 							{ INT_MAX, INT_MAX, 3, 6, 0, 6, 8 }, 
-							{ 7, INT_MAX, 8, INT_MAX, 6, 0, 2 }, 
+							{ 7, INT_MAX, 8, INT_MAX, 6, 0, 12 }, 
 							{ INT_MAX, INT_MAX, INT_MAX, INT_MAX, 8, 12, 0 }} ;
 							
 void printVect( vector<int> vect ) {
@@ -31,14 +32,19 @@ void printVect( vector<int> vect ) {
 void djikstra( vector<vector<int>> graph, int size, int start ) {
 	vector<int> visited = { start } ; // keeps track of visited nodes
 	vector<int> adjVect = graph[ start ] ; // serves as adjacency "matrix"
+	cout << to_string( start ) + ": " ;
 	printVect( adjVect ) ;
 	
 	for( int i = 0; i < size - 1 ; i++ ) { // need at most size number of iterations
 		int min = INT_MAX ;
 		int minDex ; // index of minimum, unvisited node
-		for( minDex = 0; minDex < size; minDex++ ) {
-			if(( std::count( visited.begin(), visited.end(), minDex == 0 )) && ( adjVect[ minDex ] < min )) {
-				min = adjVect[ minDex ] ;
+		for( int ii = 0; ii  < size; ii ++ ) {
+			int visitedTimes = count( visited.begin(), visited.end(), ii ) ;
+			// cout << "count: " + to_string( visitedTimes ) << endl ;
+			// cout << "dist: " + to_string( adjVect[ ii ]) << endl ;
+			if(( visitedTimes == 0 ) && ( adjVect[ ii ] < min )) {
+				min = adjVect[ ii ] ;
+				minDex = ii ;
 			}
 		}
 		
@@ -53,11 +59,18 @@ void djikstra( vector<vector<int>> graph, int size, int start ) {
 			}
 		}
 		
+		for( int x : visited ) {
+			cout << to_string( x ) ;
+		}
+		cout << ": " ;
 		printVect( adjVect ) ;
 	}
 	
 }
 
 int main( int argc, char *argv[]) {
+	cout << "===================== FIGURE 4.27 ==========================" << endl ;
 	djikstra( graph1, 6, 0 ) ; 		// u = 0, v=1, w=2, x=3, y=4, z=5
+	cout << "======================== GIVEN GRAPH =======================" << endl ;
+	djikstra( graph2, 7, 0 ) ; 		// u = 0, v=1, w=2, x=3, y=4, z=5
 }
