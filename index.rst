@@ -1,1 +1,4 @@
-Testing out RTD here.
+..	toctree::
+	:maxdepth: 2
+	
+	README.rst
